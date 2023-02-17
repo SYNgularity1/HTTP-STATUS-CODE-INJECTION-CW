@@ -1,0 +1,57 @@
+import requests
+import time
+
+def port_test(web_server_host, relay_server_host, web_server_port, relay_server_port):
+    url = 'https://www.screenconnect.com/Port-Test'
+    headers = {'Content-Type': 'application/x-www-form-urlencoded',
+               'Te': 'trailers',
+               'Host': 'www.screenconnect.com',
+               'Cookie': ''}
+    data = {'__VIEWSTATE': '',
+            '__VIEWSTATEGENERATOR': '',
+            'ctl00$Main$webServerHostBox': web_server_host,
+            'ctl00$Main$webServerPortBox': web_server_port,
+            'ctl00$Main$relayHostBox': relay_server_host,
+            'ctl00$Main$relayPortBox': relay_server_port,
+            'ctl00$Main$ctl01': 'Test Ports'}
+
+    response = requests.post(url, headers=headers, data=data)
+    return response.text
+
+def parse_response(response_text):
+    if 'Succeeded' in response_text:
+        return 'Open'
+    elif 'actively refused it' in response_text:
+        return 'Closed'
+    elif 'unable to connect' in response_text or 'did not respond' in response_text:
+        return 'Filtered'
+    else:
+        return 'Unknown'
+
+def main(web_server_host, relay_server_host):
+    interesting_ports = {80: 'HTTP',
+                    443: 'HTTPS',
+                    21: 'FTP',
+                    22: 'SSH',
+                    23: 'TELNET',
+                    25: 'SMTP',
+                    53: 'DNS',
+                    69: 'TFTP',
+                    81: 'Alt-HTTP',
+                    445: 'SMB',
+                    137: 'NETBIOS-NS',
+                    138: 'NETBIOS-DGM',
+                    139: 'NETBIOS-SSN',
+                    161: 'SNMP',
+                    179: 'BGP',
+                    389: 'LDAP',
+                    636: 'LDAPS'}
+    for port, service in interesting_ports.items():
+        response_text = port_test(web_server_host, relay_server_host, port, port)
+        status = parse_response(response_text)
+        print(f"Port: {port} ({service}) Status: {status}")
+        time.sleep(10)
+
+if __name__ == '__main__':
+    target = input("FQDN or IP for Port Scan: ")
+    main(target, target)

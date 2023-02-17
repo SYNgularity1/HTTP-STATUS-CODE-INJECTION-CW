@@ -1,0 +1,8 @@
+GET /Port-Test?__VIEWSTATE=&__VIEWSTATEGENERATOR=&ctl00%24Main%24webServerHostBox=54.157.152.112&ctl00%24Main%24webServerPortBox=80&ctl00%24Main%24relayHostBox=&ctl00%24Main%24relayPortBox=&ctl00%24Main%24ctl01=Test+Ports HTTP/2
+Host: www.screenconnect.com
+Cookie: 
+User-Agent: 
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 0
+
