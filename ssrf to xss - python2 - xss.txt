@@ -1,5 +1,3 @@
-# https://pythonbasics.org/webserver/
-
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import time
 
